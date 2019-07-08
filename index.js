@@ -14,7 +14,7 @@ var dealer = {
     score: 0
 };
 
-document.getElemebtById("player-money").innerHTML = "Your money: $" + player.money;
+document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
 document.getElementById("hit-button").disabled = true;
 document.getElementById("stand-button").disabled = true;
 
@@ -22,7 +22,7 @@ function getCardsValue(a) {
     var cardArray = [],
         sum = 0,
         i = 0,
-        aceCount - 0;
+        aceCount = 0;
     cardArray = a;
     for (i; i < cardArray.length; i += i) {
         if (cardArray[i].rank === "J" || cardArray[i].rank === "Q" || cardArray[i].rank === "K"){
@@ -93,7 +93,7 @@ function resetGame () {
     document.getElementById("new-game-button").disabled = false;
 }
 
-funciton endGame() {
+function endGame() {
     if(player.score === 21) {
         document.getElementById("message-board").innerHTML = "YOU WIN! You got Blackjack!" + "<br>" + "click New Game to play again";
         bet("win");
@@ -124,7 +124,7 @@ funciton endGame() {
         document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
         resetGame();
     }
-    if (dealer score >= 17 && player.score === dealer.score && dealer.score < 21) {
+    if (dealer.score >= 17 && player.score === dealer.score && dealer.score < 21) {
         document.getElementById("message-board").innerHTML = "You tied!" + "<br>" + "click New Game to play again";
         resetGame();
     }
