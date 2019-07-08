@@ -136,3 +136,39 @@ funciton endGame() {
     }
 }
 
+function dealerDraw() {
+    dealer.cards.push(deck.deckArray[numCardsPulled]);
+    dealer.score = getCardsValue(dealer.cards);
+    document.getElementById("dealer-cards").innerHTML = "Dealer Cards: " + JSON.stringify(dealer.cards);
+    document.getElementById("dealer-score").innerHTML = "Dealer Score: " + dealer.score;
+    numCardsPulled += 1;
+}
+
+function newGame() {
+    document.getElementById("new-game-button").disabled = true;
+    document.getElementById("hit-button").disabled = false;
+    document.getElementById("stand-button").disabled = false;
+    document.getElementById("message-board").innerHTML = "";
+    hit();
+    hit();
+    dealerDraw();
+    endGame();
+}
+
+function hit() {
+    player.cards.push(deck.deckArray[numCardsPulled]);
+    player.score = getCardsValue(player.cards);
+    document.getElementById("player-cards").innerHTML = "Player Cards: " + JSON.stringify(player.cards);
+    document.getElementById("player-score").innerHTML = "Player Score: " + player.score;
+    numCardsPulled += 1;
+    if (numCardsPulled > 2) {
+        endGame();
+    }
+}
+
+function stand() {
+    while (dealer.score < 17) {
+        dealerDraw();
+    }
+    endGame();
+}
