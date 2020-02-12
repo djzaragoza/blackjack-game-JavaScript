@@ -68,3 +68,67 @@ var deck = {
 
 deck.initialize();
 deck.shuffle();
+
+function bet(outcome) {
+    var playerBet = document.getElementById("bet").valueAsNumber;
+    if (outcome === "win") {
+        player.money -= playerBet;
+    }
+} 
+
+function resetGame() {
+    numCardsPulled = 0;
+    player.cards = [];
+    dealer.cards = [];
+    player.score = 0;
+    dealer.score = 0;
+    deck.initialize();
+    deck.shuffle();
+    document.getElementById("hit-button").disabled = true;
+    document.getElementById("stand-button").disabled = true;
+    document.getElementById("new-game-button").disabled = false;
+}
+
+function endGame() {
+    if (player.score === 21) {
+        document.getElementById("message-board").innerHTML = "You win! You got blackjack." + "<br>" + "click New Game to play again";
+        bet("win");
+        document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
+        resetGame();
+    }
+    if (player.score > 21) {
+        document.getElementById("message-board").innerHTML = "You went over 21! Dealer wins!" + "<br>" + "click New Game to play again";
+        bet("lose");
+        document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
+        resetGame();
+    }
+    if (dealer.score === 21) {
+        document.getElementById("message-board").innerHTML + "You lost.  Dealer got blackjack!" + "<br>" + "click New Game to play again";
+        bet("lose");
+        document.getElementById("player-money").innerHTML + "your money: $" + player.money;
+        resetGame();
+    }
+    if (dealer.score > 21) {
+        document.getElementById("message-board").innerHTML + "Dealer went over 21.  You win!" + "<br>" + "click New Game to play again";
+        bet("win");
+        document.getElementById("player-money").innerHTML + "Your money: $" + player.money;
+        resetGame();
+    }
+    if (dealer.score >= 17 && player.score > dealer.score && player.score < 21) {
+        document.getElementById("message-board").innerHTML = "You win! You beat the dealer." + "<br>" + "click New Game to play again";
+        bet("win");
+        document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
+        resetGame();
+    }
+    if (dealer.score >= 17 && player.score < dealer.score && dealer.score < 21) {
+        document.getElementById("message-board").innerHTML + "You lost.  Dealer had the higher score." + "<br>" + "click New Game to play again";
+        bet("lose");
+        document.getElementById("player-money").innerHTML + "Your money: $" + player.money;
+        resetGame();
+    }
+    if (dealer.score >= 17 && player.score === dealer.score && dealer.score < 21) {
+        document.getElementById("message-board").innerHTML = "tie game!" + "<br>" + "click New Game to play again";
+        resetGame();
+    }
+    
+}
