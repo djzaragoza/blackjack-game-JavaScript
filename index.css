@@ -1,0 +1,8 @@
+h1 {
+    color: aqua;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    text-decoration: underline;
+    margin-right: 50%;
+}
