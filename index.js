@@ -81,6 +81,77 @@ function createPlayersUI()
   }
 }
 
+// Start the game
 
+function startblackjack()
+{
+  document.getElementById('btnStart').value = 'Restart';
+  document.getElementById("status").style.display = "none";
+  // deal 2 cards to every player object
+  currentPlayer = 0;
+  createDeck();
+  shuffle();
+  createPlayers(2);
+  createPlayersUI();
+  dealHands();
+  document.getElementById('player_' + currentPlayer).classList.add('action');
+}
 
+// Deal the hand
+
+function dealHands()
+{
+    // alternate handing cards to each player
+  // 2 cards each
+
+  for (var i = 0; i < 2; i++)
+  {
+    for (var x = 0; x < players.length; x++)
+    {
+      var card = deck.pop();
+      players[x].Hand.push(card);
+      renderCard(card, x);
+      updatePoints();
+    }
+  }
+  updateDeck();
+}
+
+// Render the cards
+
+function renderCard(card, player)
+{
+  var hand = document.getElementById('hand_' + player);
+  hand.appendChild(getCardUI(card));
+}
+
+function getCardUI(card)
+{
+  var el = document.getElementById('div');
+  el.className = 'card';
+  el.innerHTML = card.Suit = ' ' + card.Value;
+  return el;
+}
+
+//HIT ME!
+
+var currentPlayer = 0;
+function hitMe()
+{
+    // pop a card from the deck to the current player
+  // check if current player new points are over 21
+  var card = deck.pop();
+  players[currentPlayer].Hand.push(card);
+  renderCard(card, currentPlayer);
+  updatePoints();
+  check();
+}
+
+function check()
+{
+  if (players[currentPlayer].Points > 21)
+  {
+    document.getElementById('status').innerHTML = 'Player: ' + players[currentPlayer].ID + ' LOST';
+  }
+}
 
