@@ -155,3 +155,35 @@ function check()
   }
 }
 
+// decide to Stay
+
+function stay()
+{
+    // move on to next player if any
+  if (currentPlayer != players.length - 1) {
+    document.getElementById('player_' + currentPlayer).classList.remove('active'); //removes player
+    currentPlayer += 1;
+    document.getElementById('player_' + currentPlayer).classList.add('active'); //adds new player
+  }
+  else {
+    end();
+  }
+}
+
+function end()
+{
+  var winner = -1;
+  var score = 0;
+
+  for (var i = 0; i < players.length; i++) 
+  {
+    if (players[i].Points > score && players[i].Points < 22)
+    {
+      winner = 1;
+    }
+
+    score = players[i].Points;
+  }
+
+  document.getElementById('status').innerHTML = 'Winner: Player ' + players[winner].ID;
+}
