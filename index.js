@@ -23,4 +23,64 @@ function createDeck()
 
 }
 
+// Shuffle
+
+function shuffle() 
+{
+  // for 1000 turns
+  // switch the values of two random cards
+  for (var i = 0; i < 1000; i++)
+  {
+    var location1 = Math.floor((Math.random() * deck.length));
+    var location2 = Math.floor((Math.random() * deck.length));
+    var tmp = deck[location1];
+
+    deck[location1] = deck[location2];
+    deck[location2] = tmp;
+  }
+}
+
+// Create the players
+// Below is just the logic portion
+var players = new Array();
+function createPlayers(num)
+{
+  players = new Array();
+  for (var i = 1; i <= num; i++)
+  {
+    var hand = new Array();
+    var player = { Name: 'Player ' + i, ID: i, Points: 0, Hand: hand };
+    players.push(player);
+  }
+}
+
+// Below is the UI portion
+
+function createPlayersUI()
+
+{
+  document.getElementById('players').innerHTML = '';
+  for (var i = 0; i < players.length; i++)
+  {
+    var div_player = document.getElementById('div');
+    var div_playerid = document.getElementById('div');
+    var div_hand = document.getElementById('div');
+    var div_points = document.getElementById('div');
+
+    div_points.className = 'points';
+    div_points.id = 'points_' + i;
+    div_player.id = 'player_' + i;
+    div_player.className = 'player';
+    div_hand.id = 'hand_' + i;
+
+    div_playerid.innerHTML = players[i].ID;
+    div_player.appendChild(div_playerid);
+    div_player.appendChild(div_hand);
+    div_player.appendChild(div_points);
+    document.getElementById('players').appendChild(div_player);
+  }
+}
+
+
+
 
