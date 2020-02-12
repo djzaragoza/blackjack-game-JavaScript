@@ -130,5 +130,47 @@ function endGame() {
         document.getElementById("message-board").innerHTML = "tie game!" + "<br>" + "click New Game to play again";
         resetGame();
     }
-    
+    if (player.money === 0) {
+        document.getElementById("new-game-button").disabled = true;
+        document.getElementById("hit-button").disabled = true;
+        document.getElementById("stand-button").disabled = true;
+        document.getElementById("message-board").innerHTML = "You lost!" + "<br>" + "You are broke!";
+    }
+}
+
+function dealerDraw() {
+    dealer.cards.push(deck.deckArray[numCardsPulled]);
+    dealer.score = getCardsValue(dealer.cards);
+    document.getElementById("dealer-cards").innerHTML = "Dealer Cards" + JSON.stringify(dealer.cards);
+    document.getElementById("dealer-score").innerHTML = "Dealer Score: " + dealer.score;
+    numCardsPulled += 1;
+}
+
+function newGame() {
+    document.getElementById("new-game-button").disabled = true;
+    document.getElementById("hit-button").disabled = true;
+    document.getElementById("stand-button").disabled = true;
+    document.getElementById("message-board").innerHTML = "";
+    hit();
+    hit();
+    dealerDraw();
+    endGame();
+}
+
+function hit() {
+    player.cards.push(deck.deckArray[numCardsPulled]);
+    player.score = getCardsValue(player.cards);
+    document.getElementById("player-cards").innerHTML = "Player Cards: " + JSON.stringify(player.cards);
+    document.getElementById("player-score").innerHTML = "Player Score: " + player.score;
+    numCardsPulled += 1;
+    if (numCardsPulled > 2) {
+        endGame();
+    }
+}
+
+function stand() {
+    while (dealer.score < 17) {
+        dealerDraw();
+    }
+    endGame();
 }
