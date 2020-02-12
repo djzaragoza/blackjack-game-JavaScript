@@ -1,12 +1,12 @@
 // Build the game deck
 
 var suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];
-var values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-var deck = new Array();
+var values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+var deck = new Array[];
 
 function createDeck()
 {
-  deck = new Array();
+  deck = new Array[];
   for (var i = 0; i < values.length; i++)
   {
     for (var x = 0; x < suits.length; x++)
