@@ -1,3 +1,6 @@
+/*jslint node: true*/
+/*eslint no-console: ["error", { allow: ["log"] }] */
+/*global document*/
 'use strict'
 
 var numCardsPulled = 0
@@ -7,7 +10,6 @@ var player = {
   score: 0,
   money: 100
 }
-
 var dealer = {
   cards: [],
   score: 0
@@ -77,6 +79,9 @@ deck.shuffle()
 function bet (outcome) {
   var playerBet = document.getElementById('bet').valueAsNumber
   if (outcome === 'win') {
+    player.money += playerBet
+  }
+  if (outcome === 'lose') {
     player.money -= playerBet
   }
 }
@@ -105,32 +110,28 @@ function endGame () {
   }
   if (player.score > 21) {
     document.getElementById('message-board').innerHTML =
-      'You went over 21! Dealer wins!' + '<br>' + 'click New Game to play again'
+      'You went over 21! The dealer wins' +
+      '<br>' +
+      'click New Game to play again'
     bet('lose')
     document.getElementById('player-money').innerHTML =
       'Your money: $' + player.money
     resetGame()
   }
   if (dealer.score === 21) {
-    document.getElementById('message-board').innerHTML +
-      'You lost.  Dealer got blackjack!' +
-      '<br>' +
-      'click New Game to play again'
+    document.getElementById('message-board').innerHTML =
+      'You lost. Dealer got blackjack' + '<br>' + 'click New Game to play again'
     bet('lose')
-    document.getElementById('player-money').innerHTML +
-      'your money: $' +
-      player.money
+    document.getElementById('player-money').innerHTML =
+      'Your money: $' + player.money
     resetGame()
   }
   if (dealer.score > 21) {
-    document.getElementById('message-board').innerHTML +
-      'Dealer went over 21.  You win!' +
-      '<br>' +
-      'click New Game to play again'
+    document.getElementById('message-board').innerHTML =
+      'Dealer went over 21! You win!' + '<br>' + 'click New Game to play again'
     bet('win')
-    document.getElementById('player-money').innerHTML +
-      'Your money: $' +
-      player.money
+    document.getElementById('player-money').innerHTML =
+      'Your money: $' + player.money
     resetGame()
   }
   if (dealer.score >= 17 && player.score > dealer.score && player.score < 21) {
@@ -142,10 +143,13 @@ function endGame () {
     resetGame()
   }
   if (dealer.score >= 17 && player.score < dealer.score && dealer.score < 21) {
+    document.getElementById('message-board').innerHTML =
+      'You lost. Dealer had the higher score.' +
+      '<br>' +
+      'click New Game to play again'
     bet('lose')
-    document.getElementById('player-money').innerHTML +
-      'Your money: $' +
-      player.money
+    document.getElementById('player-money').innerHTML =
+      'Your money: $' + player.money
     resetGame()
   }
   if (
@@ -154,7 +158,7 @@ function endGame () {
     dealer.score < 21
   ) {
     document.getElementById('message-board').innerHTML =
-      'tie game!' + '<br>' + 'click New Game to play again'
+      'You tied! ' + '<br>' + 'click New Game to play again'
     resetGame()
   }
   if (player.money === 0) {
@@ -162,7 +166,7 @@ function endGame () {
     document.getElementById('hit-button').disabled = true
     document.getElementById('stand-button').disabled = true
     document.getElementById('message-board').innerHTML =
-      'You lost!' + '<br>' + 'You are broke!'
+      'You lost!' + '<br>' + 'You are out of money'
   }
 }
 
@@ -170,7 +174,7 @@ function dealerDraw () {
   dealer.cards.push(deck.deckArray[numCardsPulled])
   dealer.score = getCardsValue(dealer.cards)
   document.getElementById('dealer-cards').innerHTML =
-    'Dealer Cards' + JSON.stringify(dealer.cards)
+    'Dealer Cards: ' + JSON.stringify(dealer.cards)
   document.getElementById('dealer-score').innerHTML =
     'Dealer Score: ' + dealer.score
   numCardsPulled += 1
@@ -178,8 +182,8 @@ function dealerDraw () {
 
 function newGame () {
   document.getElementById('new-game-button').disabled = true
-  document.getElementById('hit-button').disabled = true
-  document.getElementById('stand-button').disabled = true
+  document.getElementById('hit-button').disabled = false
+  document.getElementById('stand-button').disabled = false
   document.getElementById('message-board').innerHTML = ''
   hit()
   hit()
